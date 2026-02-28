@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sinh viên</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .value {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .minor {
+            color: red;
+            font-weight: bold;
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #b02a37);
+        }
+
+        .btn-back {
+            background: #6c757d;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>📄 Chi tiết sinh viên</h2>
+
+    <div class="info-row">
+        <div class="label">ID</div>
+        <div class="value" th:text="${student.id}"></div>
+    </div>
+
+    <div class="info-row">
+        <div class="label">Họ và Tên</div>
+        <div class="value" th:text="${student.name}"></div>
+    </div>
+
+    <div class="info-row">
+        <div class="label">Email</div>
+        <div class="value" th:text="${student.email}"></div>
+    </div>
+
+    <div class="info-row">
+        <div class="label">Tuổi</div>
+        <div class="value"
+             th:text="${student.age}"
+             th:classappend="${student.age < 18} ? ' minor' : ''">
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <a th:href="@{/students}" class="btn btn-back">⬅ Quay lại</a>
+
+        <a th:href="@{'/students/edit/' + ${student.id}}"
+           class="btn btn-edit">✏ Chỉnh sửa</a>
+
+        <form th:action="@{'/students/delete/' + ${student.id}}"
+              method="post"
+              style="flex:1;">
+            <button type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('Bạn có chắc muốn xóa?')">
+                🗑 Xóa
+            </button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

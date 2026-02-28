@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sinh viên</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 1100px;
+            margin: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin: 0 0 25px 0;
+            font-weight: 600;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 220px;
+        }
+
+        .search-box button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            background: #f3f4f6;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .age-minor {
+            color: red;
+            font-weight: bold;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #5a67d8;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+            text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>📚 Quản lý Sinh Viên</h1>
+
+    <div class="top-bar">
+        <form class="search-box" action="/students" method="GET">
+            <input type="text" name="keyword" placeholder="Tìm theo tên..."/>
+            <button type="submit">Tìm</button>
+        </form>
+
+        <a href="/students/new" class="btn-add">+ Thêm Sinh Viên</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Họ và tên</th>
+            <th>Email</th>
+            <th>Tuổi</th>
+            <th>Chi tiết</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="student : ${dsSinhVien}" th:classappend="${student.age < 18} ? 'age-minor' : ''">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.email}"></td>
+
+            <td th:text="${student.age}">
+            </td>
+
+            <td>
+                <a th:href="@{'/students/' + ${student.id}}"
+                   class="action-btn">Xem</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Tổng số sinh viên: <span th:text="${#lists.size(dsSinhVien)}"></span>
+    </div>
+</div>
+
+</body>
+</html>
